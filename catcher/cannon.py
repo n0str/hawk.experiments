@@ -6,12 +6,13 @@ from local import TOKEN
 
 URL = 'https://hawk.so/catcher/python'
 data = {
+    "lang": "python",
     "token": TOKEN,
     "message": "Cannon shot",
     "errorLocation": {
-        "file": "test.py",
+        "file": "testц.py",
         "line": 10,
-        "full": "test.py -> 10"
+        "full": "testц.py -> 10"
     },
     "stack": [
 
@@ -24,8 +25,9 @@ async def fetch(url, session):
     async with session.post(url, json=data) as response:
         delay = response.headers.get("DELAY")
         date = response.headers.get("DATE")
-        print("{}:{} with delay {}".format(date, response.url, delay))
-        return await response.read()
+        response_text = await response.read()
+        print("{}:{} with delay {}".format(date, response_text, delay))
+        return response_text
 
 
 async def bound_fetch(sem, url, session):
@@ -36,10 +38,10 @@ async def bound_fetch(sem, url, session):
 
 async def run(r):
     # url = URL
-    url = 'http://localhost:8081/catcher/python'
+    url = 'http://localhost:8080'
     tasks = []
     # create instance of Semaphore
-    sem = asyncio.Semaphore(500)
+    sem = asyncio.Semaphore(100)
 
     # Create client session that will ensure we dont open new connection
     # per each request.
@@ -54,7 +56,7 @@ async def run(r):
 
 
 # Count of cannon shots
-number = 5
+number = 100
 loop = asyncio.get_event_loop()
 
 future = asyncio.ensure_future(run(number))
