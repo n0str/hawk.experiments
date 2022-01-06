@@ -3,7 +3,7 @@ amqp==2.3.2
 async-timeout==3.0.0
 attrs==18.2.0
 billiard==3.5.0.4
-celery==4.2.1
+celery==5.2.2
 certifi==2018.8.24
 chardet==3.0.4
 hawkcatcher==1.1.2
